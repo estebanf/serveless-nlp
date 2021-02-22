@@ -5,13 +5,22 @@ const GOOGLE_CLOUD_PROJECT = process.env.GOOGLE_CLOUD_PROJECT;
 const WORKFLOW_REGION = process.env.WORKFLOW_REGION;
 const WORKFLOW_NAME = process.env.WORKFLOW_NAME;
 
+console.log(`GOOGLE_CLOUD_PROJECT ${GOOGLE_CLOUD_PROJECT}`)
+console.log(`WORKFLOW_REGION ${WORKFLOW_REGION}`)
+console.log(`WORKFLOW_NAME ${WORKFLOW_NAME}`)
+
+
 // Main function
-exports.trigger_workflow_function = async (e,context) => {
+exports.trigger_workflow_function = async (event,context) => {
 
     //retrieve details of the event
-    const file = e.name;
-    const bucket = e.bucket; 
+    const file = event.name;
+    const bucket = event.bucket; 
     const eventType = context.eventType;
+
+    console.log(`file ${file}`)
+    console.log(`bucket ${bucket}`)
+    console.log(`eventType ${eventType}`)
 
     // Let's just work if this is a new file
     if (eventType == 'google.storage.object.finalize') {
