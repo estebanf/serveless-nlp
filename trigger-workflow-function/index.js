@@ -17,7 +17,7 @@ exports.trigger_workflow_function = async (e,context) => {
     if (eventType == 'google.storage.object.finalize') {
         // This is a new file, let's start the workflow
         try {
-            const execResponse = await.createExecution({
+            const execResponse = await client.createExecution({
                 parent: client.workflowPath(GOOGLE_CLOUD_PROJECT,WORKFLOW_REGION, WORKFLOW_NAME),
                 execution: {
                     argument: JSON.stringify({ file , bucket })
