@@ -1,7 +1,6 @@
 {
-  "name": "trigger-workflow-function",
+  "name": "process_document",
   "version": "1.0.0",
-  "description": "Cloud function to trigger the workflow",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,6 +8,7 @@
   "author": "Esteban Felipe",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/firestore": "^4.9.4",
     "@google-cloud/language": "^4.2.1",
     "@google-cloud/storage": "^5.8.0",
     "@google-cloud/workflows": "^1.1.0"
