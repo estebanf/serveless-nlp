@@ -1,5 +1,6 @@
 const language = require('@google-cloud/language');
-const Firestore = require('@google-cloud/firestore')
+const Firestore = require('@google-cloud/firestore');
+const _ = require('lodash');
 
 const client = new language.LanguageServiceClient();
 
@@ -18,16 +19,31 @@ exports.process_document = async (event,context) => {
       };
 
     const [result] = await client.analyzeEntities({document});
-    const entities = result.entities;
+    const entities = _.chain(result.entities)
+        .map((obj) => {
+            return {
+                name: obj.name,
+                salience: obj.salience,
+                type: obj.type,
+                mentions: obj.mentions.length
+            }
+        })
+        .sortBy('salience')
+        .reverse()
+        .groupBy('type')
+        .value()
 
     const [classification] = await client.classifyText({document});
 
     const documentStore = new Firestore().collection(COLLECTION_NAME);
 
     const doc = documentStore.doc(file);
-    await doc.set({
+    const docValues = {
         uri: docUri,
         classifications: classification,
-        entities: entities
+    }
+    _.each(_.keys(entities), (key) => {
+        docValues[key] = entities[key];
     })
+    await doc.set(docValues);
 }
