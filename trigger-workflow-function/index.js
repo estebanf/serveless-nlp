@@ -29,7 +29,7 @@ exports.trigger_workflow_function = async (event,context) => {
         type: 'PLAIN_TEXT',
       };
 
-    const [result] = await client.analyzeEntities({document});
+    const [result] = await langClient.analyzeEntities({document});
     const entities = result.entities;
     console.log('Entities:');
     entities.forEach(entity => {
@@ -39,7 +39,7 @@ exports.trigger_workflow_function = async (event,context) => {
         console.log(` - Wikipedia URL: ${entity.metadata.wikipedia_url}`);
       }
     });
-        
+
     // console.log(`file ${file}`)
     // console.log(`bucket ${bucket}`)
     // console.log(`eventType ${eventType}`)
